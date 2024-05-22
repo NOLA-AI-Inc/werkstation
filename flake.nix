@@ -7,19 +7,23 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    instance-config-file.url = "file+file:///Users/tastycode/workspace/nola-ai/config.json";
+    instance-config-file.flake = false;
+    #nixpkgs.lib.importJSON /workspace/config.json;
   };
 
   outputs = {
     self,
     nixpkgs,
     home-manager,
+    instance-config-file,
   }: let
-    instanceConfig = nixpkgs.lib.importJSON ./config.json;
-    machine = instanceConfig.machine;
+    instance-config = nixpkgs.lib.importJSON (nixpkgs.lib.debug.traceVal instance-config-file.outPath);
+    machine = (nixpkgs.lib.debug.traceVal instance-config).machine;
 
     # Values you should modify
-    username = instanceConfig.machine.username;
-    system = instanceConfig.machine.system; #"aarch64-darwin"; # x86_64-linux, aarch64-multiplatform, etc.
+    username = instance-config.machine.username;
+    system = instance-config.machine.system; #"aarch64-darwin"; # x86_64-linux, aarch64-multiplatform, etc.
     stateVersion = "22.11"; # See https://nixos.org/manual/nixpkgs/stable for most recent
 
     pkgs = import nixpkgs {
@@ -40,7 +44,7 @@
       else "/${homeDirPrefix}/${username}";
     home = import ./home.nix {
       inherit homeDirectory pkgs stateVersion system username machine;
-      inherit (instanceConfig) user;
+      inherit (instance-config) user;
     };
   in {
     homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {

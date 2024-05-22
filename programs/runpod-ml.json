@@ -8,10 +8,51 @@
   "neovim": {
     "enable": true
   },
+  "fzf": {
+      "enable": true
+  },
+  "jq": {
+      "enable": true
+  },
   "git": {
     "enable": true,
     "lfs": {
       "enable": true
-    }
+    },
+  "extraConfig": {
+        "branch": {
+          "autoSetupMerge": "always",
+          "autoSetupRebase": "always",
+          "autoSetupRemote": true
+        },
+        "rerere": {
+          "enabled": "true",
+          "autoUpdate": "true"
+        },
+        "core": {
+          "editor": "vim",
+          "whitespace": "trailing-space,space-before-tab"
+        },
+        "diff": {
+          "algorithm": "minimal",
+          "compactionHeuristic": true,
+          "renames": "copies",
+          "mnemonicprefix": true,
+          "tool": "vscode"
+        },
+
+        "status": {
+            "showUntrackedFiles": "all"
+        },
+        "push": {
+            "default": "current"
+        },
+        "pull": {
+            "rebase": true
+        },
+        "fetch": {
+            "prune": true
+        }
+      }
   }
 }

@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1715930644,
-        "narHash": "sha256-W9pyM3/vePxrffHtzlJI6lDS3seANQ+Nqp+i58O46LI=",
+        "lastModified": 1716457508,
+        "narHash": "sha256-ZxzffLuWRyuMrkVVq7wastNUqeO0HJL9xqfY1QsYaqo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "e3ad5108f54177e6520535768ddbf1e6af54b59d",
+        "rev": "850cb322046ef1a268449cf1ceda5fd24d930b05",
         "type": "github"
       },
       "original": {
@@ -20,13 +20,25 @@
         "type": "github"
       }
     },
+    "instance-config-file": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-GdKw9YsFth1LKHJBmyrREl+VocTw2QTw/eRec3FrXSg=",
+        "type": "file",
+        "url": "file:///Users/tastycode/workspace/nola-ai/config.json"
+      },
+      "original": {
+        "type": "file",
+        "url": "file:///Users/tastycode/workspace/nola-ai/config.json"
+      }
+    },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1716329855,
-        "narHash": "sha256-36j0Fvd1Lb+J8g0YVPZSnqqTR8DWJGfstBKptq4hkVc=",
+        "lastModified": 1716489524,
+        "narHash": "sha256-ePXc0TNyOdEHZdfcXLYQMN7qAbjmcuO6RTtHJpox1mE=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "4abe5f8c12fa4046150bb333e4b69e96e684f3cd",
+        "rev": "9a0eef506d8c0df444a8b7abbf8044cfc3601b68",
         "type": "github"
       },
       "original": {
@@ -38,6 +50,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "instance-config-file": "instance-config-file",
         "nixpkgs": "nixpkgs"
       }
     }
