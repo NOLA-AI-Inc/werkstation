@@ -25,7 +25,7 @@ cargo_env: home_manager_install
 	@cargo install --git https://github.com/asciinema/asciinema
 	
 
-runpod-lm: cargo_env
+runpod-ml: cargo_env
 	@echo "Assembling workstation environment"
 	@askemon config.schema.json config.json
 	@home-manager switch --flake "${HOME}/werkstation"
