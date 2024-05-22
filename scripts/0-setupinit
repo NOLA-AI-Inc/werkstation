@@ -13,5 +13,8 @@ else
     exit 1
 fi
 git clone git@github.com:nola-ai-inc/werkstation.git
+
+sleep 2
 cd /workspace/werkstation
+pwd
 make "${PROFILE}"

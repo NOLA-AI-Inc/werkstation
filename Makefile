@@ -1,4 +1,3 @@
-werk:
 nix_install:
 	# only run if `which nix` returns nnzero
 	curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no--confirm --init none
