@@ -2,9 +2,9 @@
 
 - Sasha created this repo because she was tired of setting up runpods over and over again and wanted a single command to set everything up
 
-
 ```
-PROFILE=runpod-ml curl https://github.com/nola-ai/werkstation/tree/scripts/0-setupinit | bash
+curl -s "https://raw.githubusercontent.com/NOLA-AI-Inc/werkstation/main/scripts/0-setupinit" | PROFILE=runpod-ml bash
+
 
 
 ```
