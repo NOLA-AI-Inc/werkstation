@@ -1,3 +1,5 @@
-setup:
-	profiles = $(ls programs/*.json)
-	Existing profiles include:
+all:
+	cargo build --release
+
+install:
+	cargo install --path .

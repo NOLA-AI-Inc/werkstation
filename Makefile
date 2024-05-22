@@ -19,7 +19,10 @@ home_manager_install: configure_path
 
 cargo_env: home_manager_install
 	@apt install -y cargo
-	@cargo install --path packages/askemon 
+	cd packages/askemon	
+	make
+	make install
+	cd -
 	@cargo install --git https://github.com/asciinema/asciinema
 	
 
