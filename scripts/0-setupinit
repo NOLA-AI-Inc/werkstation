@@ -1,0 +1,24 @@
+#!/bin/bash
+echo "Setting up werkstation on profile $PROFILE. Continue?"
+
+while true; do
+    read -p "Do you want to continue? (y/n): " yn
+    case $yn in
+        [Yy]* ) echo "Continuing..."; break;;
+        [Nn]* ) echo "Exiting..."; exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+cd /workspace
+
+if [ -n "$SSH_AUTH_SOCK" ]; then
+    echo "SSH agent is running and attached."
+    
+else
+    echo "No SSH agent is attached. Be sure to connect via ssh with flags `-At` to enable agent forwarding"
+    exit(1)
+fi
+git clone https://github.com/nola-ai/werkstation
+cd /workspace/werkstation
+make "${PROFILE}"

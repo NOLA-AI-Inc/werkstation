@@ -1,0 +1,17 @@
+{
+  "zellij": {
+    "enable": true
+  },
+  "tmux": {
+    "enable": true
+  },
+  "neovim": {
+    "enable": true
+  },
+  "git": {
+    "enable": true,
+    "lfs": {
+      "enable": true
+    }
+  }
+}

@@ -1,0 +1,121 @@
+use serde_json::{json, Value};
+use jsonschema::{JSONSchema};
+use dialoguer::{Input, Confirm};
+use std::{fs, io::Result};
+
+fn main() -> Result<()> {
+    let args: Vec<String> = std::env::args().collect();
+    if args.len() != 3 {
+        eprintln!("Usage: promptjson <path to schema.json> <output json file>");
+        std::process::exit(1);
+    }
+
+    let schema_path = &args[1];
+    let output_path = &args[2];
+
+    let schema_str = fs::read_to_string(schema_path)?;
+    let schema_json: Value = serde_json::from_str(&schema_str)?;
+
+    let mut result_json = json!({});
+
+    if let Value::Object(properties) = &schema_json["properties"] {
+        process_properties(properties, &mut result_json)?;
+    }
+
+    // Print the resulting JSON object
+    match serde_json::to_string_pretty(&result_json) {
+        Ok(json_str) => println!("Generated JSON:\n{}", json_str),
+        Err(e) => eprintln!("Error converting to JSON string: {}", e),
+    }
+
+    fs::write(output_path, serde_json::to_string_pretty(&result_json)?)?;
+
+    println!("JSON file created successfully at {}", output_path);
+    Ok(())
+}
+
+fn process_properties(properties: &serde_json::Map<String, Value>, result_json: &mut Value) -> Result<()> {
+    for (key, subschema) in properties {
+        let title = subschema["title"].as_str().unwrap_or(key);
+        let description = subschema["description"].as_str().unwrap_or("");
+
+        let prompt = if description.is_empty() {
+            format!("Enter value for {}\n\n{}", title, key)
+        } else {
+            format!("Enter value for {}\n{}\n\n{}", title, description, key)
+        };
+
+        let mut input_value: Value = if let Some(default) = subschema.get("default") {
+            default.clone()
+        } else {
+            Value::Null
+        };
+
+        if input_value.is_null() {
+            input_value = match subschema["type"].as_str().unwrap_or("string") {
+                "string" => {
+                    let input: String = Input::new()
+                        .with_prompt(&prompt)
+                        .interact_text()?;
+                    json!(input)
+                }
+                "integer" => {
+                    let input: i64 = Input::new()
+                        .with_prompt(&prompt)
+                        .interact_text()?;
+                    json!(input)
+                }
+                "boolean" => {
+                    let input: bool = Confirm::new()
+                        .with_prompt(&prompt)
+                        .interact()?;
+                    json!(input)
+                }
+                "array" => {
+                    // For simplicity, we'll assume arrays of strings
+                    let mut arr = Vec::new();
+                    loop {
+                        let input: String = Input::new()
+                            .with_prompt(&format!("{} (leave empty to finish): ", prompt))
+                            .allow_empty(true)
+                            .interact_text()?;
+                        if input.is_empty() {
+                            break;
+                        }
+                        arr.push(input);
+                    }
+                    json!(arr)
+                }
+                "object" => {
+                    // Recursively handle nested objects
+                    let mut nested_obj = json!({});
+                    if let Value::Object(nested_properties) = &subschema["properties"] {
+                        process_properties(nested_properties, &mut nested_obj)?;
+                    }
+                    nested_obj
+                }
+                _ => {
+                    eprintln!("Unsupported type");
+                    json!(null)
+                }
+            };
+        }
+
+        // Validate the input against the subschema
+        let field_json = json!({ key: input_value });
+        let subschema_object = json!({ "type": "object", "properties": { key: subschema } });
+        let subschema = JSONSchema::compile(&subschema_object).unwrap();
+
+        if subschema.validate(&field_json).is_ok() {
+            if let Some(obj) = result_json.as_object_mut() {
+                obj.insert(key.to_string(), input_value);
+            } else {
+                eprintln!("Unable to set value for {}", key);
+            }
+        } else {
+            eprintln!("Invalid input for {}", key);
+        }
+    }
+
+    Ok(())
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Machine and User Configuration",
+  "type": "object",
+  "properties": {
+    "machine": {
+      "type": "object",
+      "properties": {
+        "profile": {
+          "type": "string",
+          "default": "runpod-ml"
+        },
+        "username": {
+          "type": "string",
+          "default": "root"
+        },
+        "system": {
+          "type": "string",
+          "default": "x86_64-linux",
+          "enum": ["x86_64-linux", "aarch64-darwin"]
+        }
+      },
+      "required": ["system"]
+    },
+    "user": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        }
+      },
+      "required": ["name", "email"]
+    }
+  },
+  "required": ["machine", "user"]
+}
