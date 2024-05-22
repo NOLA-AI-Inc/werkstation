@@ -9,9 +9,9 @@ if [ -n "$SSH_AUTH_SOCK" ]; then
     echo "SSH agent is running and attached."
     
 else
-    echo "No SSH agent is attached. Be sure to connect via ssh with flags `-At` to enable agent forwarding"
-    exit(1)
+    echo "No SSH agent is attached. Be sure to connect via ssh with flags '-At' to enable agent forwarding"
+    exit 1
 fi
-git clone https://github.com/nola-ai/werkstation
+git clone git@github.com:nola-ai-inc/werkstation.git
 cd /workspace/werkstation
 make "${PROFILE}"
