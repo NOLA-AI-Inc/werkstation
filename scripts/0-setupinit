@@ -1,14 +1,7 @@
 #!/bin/bash
-echo "Setting up werkstation on profile $PROFILE. Continue?"
+echo "Setting up werkstation on profile $PROFILE. Ctrl+C to abort."
 
-while true; do
-    read -p "Do you want to continue? (y/n): " yn
-    case $yn in
-        [Yy]* ) echo "Continuing..."; break;;
-        [Nn]* ) echo "Exiting..."; exit;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done
+sleep 6
 
 cd /workspace
 
