@@ -1,6 +1,6 @@
 nix_install:
 	# only run if `which nix` returns nnzero
-	curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no--confirm --init none
+	curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm --init none
 
 
 configure_path: nix_install
