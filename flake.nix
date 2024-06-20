@@ -22,8 +22,8 @@
     machine = (nixpkgs.lib.debug.traceVal instance-config).machine;
 
     # Values you should modify
-    username = instance-config.machine.username;
-    system = instance-config.machine.system; #"aarch64-darwin"; # x86_64-linux, aarch64-multiplatform, etc.
+    username = machine.username;
+    system = machine.system; #"aarch64-darwin"; # x86_64-linux, aarch64-multiplatform, etc.
     stateVersion = "22.11"; # See https://nixos.org/manual/nixpkgs/stable for most recent
 
     pkgs = import nixpkgs {

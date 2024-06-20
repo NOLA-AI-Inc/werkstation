@@ -8,9 +8,7 @@
   "neovim": {
     "enable": true
   },
-  "fzf": {
-      "enable": true
-  },
+  "fzf.enable": true,
   "jq": {
       "enable": true
   },
